@@ -1,0 +1,18 @@
+{
+  "name": "redmine-playwright-allure-gitpipelines-gitpages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test --reporter=line,allure-playwright",
+    "allure-generate": "allure generate --clean",
+    "allure-serve": "allure serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.23.3",
+    "allure-playwright": "^2.0.0-beta.18"
+  }
+}

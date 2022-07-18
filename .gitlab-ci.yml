@@ -1,0 +1,33 @@
+stages:          # List of stages for jobs, and their order of execution
+  - test
+  - deploy
+
+docker_job:       # This job runs in the test stage, which runs first.
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.23.1-focal
+  before_script:
+    - npm ci
+    - npx playwright install --with-deps
+    - export JAVA_HOME="/usr/bin/java"
+    - npm install allure-commandline --save-dev
+  script:
+    - npm run test
+  after_script:
+    - npx allure generate allure-results
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - ./allure-report
+    expire_in: 1 day
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - mv ./allure-report/* public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - when: always
